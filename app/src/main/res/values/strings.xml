@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Serving Hands</string>
+
+    <string name="dummy_button">Login/Sign Up</string>
+    <string name="dummy_content">Welcome to the Serving Hands</string>
+    <string-array name="city_array">
+        <item>Mumbai</item>
+        <item>Pune</item>
+        <item>Noida</item>
+        <item>Kanpur</item>
+        <item>Delhi</item>
+    </string-array>
+</resources>
