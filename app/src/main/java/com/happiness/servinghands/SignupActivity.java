@@ -1,10 +1,12 @@
 package com.happiness.servinghands;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
@@ -12,7 +14,16 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import static com.google.android.gms.common.util.CollectionUtils.listOf;
 
@@ -21,6 +32,7 @@ public class SignupActivity extends AppCompatActivity {
     TextInputLayout regName, regUsername, regEmail, regPhoneNo, regPassword;
     AutoCompleteTextView menu;
     Button regBtn, regToLoginBtn;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,18 +151,45 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
         //Get the Phone No from phone no field in String
-        String name =regName.getEditText().getText().toString();
-        String username = regUsername.getEditText().getText().toString();
-        String email = regEmail.getEditText().getText().toString();
-        String phoneNo = regPhoneNo.getEditText().getText().toString();
-        String password = regPassword.getEditText().getText().toString();
-        //Call the next activity and pass phone no with it
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        intent.putExtra("phoneNo", phoneNo);
-        intent.putExtra("name", name);
-        intent.putExtra("username", username);
-        intent.putExtra("email", email);
-        intent.putExtra("password", password);
-        startActivity(intent);
+        final String name =regName.getEditText().getText().toString();
+        final String username = regUsername.getEditText().getText().toString();
+        final String email = regEmail.getEditText().getText().toString();
+        final String phoneNo = regPhoneNo.getEditText().getText().toString();
+        final String password = regPassword.getEditText().getText().toString();
+        final String usertype = menu.getEditableText().toString();
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    final User user = new User(name, username, email, phoneNo, password, usertype);
+                                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                    firebaseUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(SignupActivity.this, "Verification Email sent successfully!", Toast.LENGTH_LONG).show();
+                                            FirebaseDatabase.getInstance().getReference("Users")
+                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Log.d("Register","User has been registered successfully!");
+                                                    } else {
+                                                        Log.e("Register","Failed to register");
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(SignupActivity.this, "Verification Email not sent, Try Again!", Toast.LENGTH_LONG).show();
+                                            Log.e("Error", "Verification Email not sent" + e.getMessage());
+                                        }
+                                    });
+                                    }
+                                }
+                        });
     }
-}
+    }
