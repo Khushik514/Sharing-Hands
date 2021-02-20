@@ -11,14 +11,21 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class BookActivity extends AppCompatActivity {
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     TextInputLayout name, author;
     AutoCompleteTextView category, age;
     String[] categories = {"Children's & Young Adult","Health, Family & Personal Development","Business Self-Help",
@@ -48,11 +55,43 @@ public class BookActivity extends AppCompatActivity {
         });
     }
     public void addBook(){
-        String AuthorName = author.getEditText().getText().toString();
-        String BookName = name.getEditText().getText().toString();
-        String BookCategory = category.getEditableText().toString();
-        String BookAges = age.getEditableText().toString();
-        Book book = new Book(BookName, AuthorName, BookCategory, BookAges);
+        final String AuthorName = author.getEditText().getText().toString();
+        final String BookName = name.getEditText().getText().toString();
+        final String BookCategory = category.getEditableText().toString();
+        final String BookAges = age.getEditableText().toString();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        final String userID = currentUser.getUid();
+        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User userProfile = snapshot.getValue(User.class);
+                if(userProfile!=null){
+                    String username = userProfile.username;
+                    String email = userProfile.email;
+                    String phone = userProfile.phoneNo;
+                    Book book = new Book(BookName, AuthorName, BookCategory, BookAges, userID, username, email, phone);
+                    FirebaseDatabase.getInstance().getReference("Posts/Book")
+                            .push()
+                            .setValue(book).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(BookActivity.this,"Post added Successfully!", Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                Toast.makeText(BookActivity.this,"Something went wrong, Try again", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(BookActivity.this,"Something went wrong, Try again", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 }

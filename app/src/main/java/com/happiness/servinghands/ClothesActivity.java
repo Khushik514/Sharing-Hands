@@ -1,5 +1,6 @@
 package com.happiness.servinghands;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -8,8 +9,20 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ClothesActivity extends AppCompatActivity {
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     AutoCompleteTextView age, gender, season;
     Button submit;
     String[] ages = {"< 3 years","3 - 5 years","5 - 10 years","10 - 15 years","15 - 20 years","20+ years"};
@@ -38,10 +51,42 @@ public class ClothesActivity extends AppCompatActivity {
         });
     }
     public void clothAdd(){
-        String suitable_age = age.getEditableText().toString();
-        String genderspec = gender.getEditableText().toString();
-        String seasoninfo = season.getEditableText().toString();
-        Cloth cloth = new Cloth(suitable_age, genderspec, seasoninfo);
+        final String suitable_age = age.getEditableText().toString();
+        final String genderspec = gender.getEditableText().toString();
+        final String seasoninfo = season.getEditableText().toString();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        final String userID = currentUser.getUid();
+        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User userProfile = snapshot.getValue(User.class);
+                if(userProfile!=null){
+                    String username = userProfile.username;
+                    String email = userProfile.email;
+                    String phone = userProfile.phoneNo;
+                    Cloth cloth = new Cloth(suitable_age, genderspec, seasoninfo, userID, username, email, phone);
+                    FirebaseDatabase.getInstance().getReference("Posts/Cloth")
+                            .push()
+                            .setValue(cloth).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(ClothesActivity.this,"Post added Successfully!", Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                Toast.makeText(ClothesActivity.this,"Something went wrong, Try again", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ClothesActivity.this,"Something went wrong, Try again", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 }

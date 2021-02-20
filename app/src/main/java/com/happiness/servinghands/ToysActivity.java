@@ -1,5 +1,6 @@
 package com.happiness.servinghands;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -8,8 +9,20 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ToysActivity extends AppCompatActivity {
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     AutoCompleteTextView age, type;
     String[] ages = {"< 3 years","3 - 5 years","5 - 8 years","8 - 12 years","12+ years"};
     String[] types = {"Electronic","Playsets & Figures","Pretend Play","Educational"};
@@ -34,9 +47,41 @@ public class ToysActivity extends AppCompatActivity {
         });
     }
     public void toyAdd(){
-        String suitableForAges = age.getEditableText().toString();
-        String toyType = type.getEditableText().toString();
-        Toy toy = new Toy(suitableForAges, toyType);
+        final String suitableForAges = age.getEditableText().toString();
+        final String toyType = type.getEditableText().toString();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        final String userID = currentUser.getUid();
+        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User userProfile = snapshot.getValue(User.class);
+                if(userProfile!=null){
+                    String username = userProfile.username;
+                    String email = userProfile.email;
+                    String phone = userProfile.phoneNo;
+                    Toy toy = new Toy(suitableForAges, toyType, userID, username, email, phone);
+                    FirebaseDatabase.getInstance().getReference("Posts/Toy")
+                            .push()
+                            .setValue(toy).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(ToysActivity.this,"Post added Successfully!", Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                Toast.makeText(ToysActivity.this,"Something went wrong, Try again", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ToysActivity.this,"Something went wrong, Try again", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 }
