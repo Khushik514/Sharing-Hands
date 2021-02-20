@@ -175,9 +175,9 @@ public class SignupActivity extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
                                                         Log.d("Register","User has been registered successfully!");
-                                                        Intent intent = Intent(this, LoginActivity.class);
+                                                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                                         startActivity(intent);
-                                                        finifh();
+                                                        finish();
                                                     } else {
                                                         Log.e("Register","Failed to register");
                                                     }

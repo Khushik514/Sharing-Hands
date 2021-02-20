@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ForgotpasswordActivity"
+    tools:context=".DonationTypeActivity"
     android:orientation="vertical"
     android:background="#fff"
     android:padding="20dp">
@@ -17,31 +17,44 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter your email below."
+        android:text="What form of happiness would you like to share?"
         android:textSize="35dp"
         android:textAlignment="center"
         android:textColor="#000"/>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"/>
-    </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/forgetsubmit"
+        android:id="@+id/food"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:backgroundTint="#3A405A"
-        android:text="Forgot Password"
-        android:textColor="#fff">
-
-    </Button>
+        android:text="Food"
+        android:textColor="#fff"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/clothes"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#AEC5EB"
+        android:text="Clothes"
+        android:textColor="#fff"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/books"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="Books"
+        android:textColor="#fff"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toys"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#F9DE99"
+        android:text="Toys"
+        android:textColor="#fff"/>
 
 </LinearLayout>

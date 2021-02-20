@@ -3,6 +3,9 @@ package com.happiness.servinghands;
 public class User {
     public String name, username, email, phoneNo, password, usertype;
 
+    public User() {
+    }
+
     public User(String name, String username, String email, String phoneNo, String password, String usertype) {
         this.name = name;
         this.username = username;
