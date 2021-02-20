@@ -2,6 +2,7 @@ package com.happiness.servinghands;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,25 +22,29 @@ public class DonationTypeActivity extends AppCompatActivity {
         books.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), BookActivity.class);
+                startActivity(intent);
             }
         });
         food.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), FoodActivity.class);
+                startActivity(intent);
             }
         });
         clothes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), ClothesActivity.class);
+                startActivity(intent);
             }
         });
         toys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), ToysActivity.class);
+                startActivity(intent);
             }
         });
     }

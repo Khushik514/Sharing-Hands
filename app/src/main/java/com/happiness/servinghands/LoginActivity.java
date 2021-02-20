@@ -134,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                             User userProfile = snapshot.getValue(User.class);
                             if(userProfile!=null){
                                 String type = userProfile.usertype;
+                                progressBar.setVisibility(View.GONE);
                                 if(type.equalsIgnoreCase("Donor")){
                                     Intent intent = new Intent(getApplicationContext(), DonationTypeActivity.class);
                                     startActivity(intent);
@@ -160,40 +161,6 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Email and/or Password is incorrect", Toast.LENGTH_LONG).show();
                 }
         }});
-        /*DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-        Query checkUser = reference.orderByChild("username").equalTo(userEnteredUsername);
-        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    username.setError(null);
-                    username.setErrorEnabled(false);
-                    String passwordFromDB = dataSnapshot.child(userEnteredUsername).child("password").getValue(String.class);
-                    if (passwordFromDB.equals(userEnteredPassword)) {
-                        username.setError(null);
-                        username.setErrorEnabled(false);
-                        progressBar.setVisibility(View.GONE);
-                        //Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-
-                        //intent.putExtra("Username",userEnteredUsername);
-                        //startActivity(intent);
-                    } else {
-                        progressBar.setVisibility(View.GONE);
-                        password.setError("Wrong Password");
-                        password.requestFocus();
-                    }
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                    username.setError("No such User exist");
-                    username.requestFocus();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
     }
     @Override
     public void onBackPressed() {
