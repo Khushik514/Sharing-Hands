@@ -30,28 +30,28 @@ public class MypostsActivity extends AppCompatActivity {
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MypostsActivity.this, BookPostsActivity.class);
+                Intent intent = new Intent(MypostsActivity.this, BookPostsDonorActivity.class);
                 startActivity(intent);
             }
         });
         cloth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MypostsActivity.this, ClothPostsActivity.class);
+                Intent intent = new Intent(MypostsActivity.this, ClothPostsDonorActivity.class);
                 startActivity(intent);
             }
         });
         food.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MypostsActivity.this, FoodPostsActivity.class);
+                Intent intent = new Intent(MypostsActivity.this, FoodPostsDonorActivity.class);
                 startActivity(intent);
             }
         });
         toy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MypostsActivity.this, ToyPostsActivity.class);
+                Intent intent = new Intent(MypostsActivity.this, ToyPostsDonorActivity.class);
                 startActivity(intent);
             }
         });

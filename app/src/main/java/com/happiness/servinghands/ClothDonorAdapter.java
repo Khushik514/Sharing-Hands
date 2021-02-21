@@ -14,11 +14,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
 
-public class ClothAdapter extends FirebaseRecyclerAdapter<
-        Cloth, ClothAdapter.clothsViewholder> {
+public class ClothDonorAdapter extends FirebaseRecyclerAdapter<
+        Cloth, ClothDonorAdapter.clothsViewholder> {
     DatabaseReference mbase;
     FirebaseAuth mauth = FirebaseAuth.getInstance();
-    public ClothAdapter(
+    public ClothDonorAdapter(
             @NonNull FirebaseRecyclerOptions<Cloth> options)
     {
         super(options);
@@ -33,15 +33,15 @@ public class ClothAdapter extends FirebaseRecyclerAdapter<
     }
     @NonNull
     @Override
-    public ClothAdapter.clothsViewholder
+    public ClothDonorAdapter.clothsViewholder
     onCreateViewHolder(@NonNull ViewGroup parent,
                        int viewType)
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cloth, parent, false);
-        return new ClothAdapter.clothsViewholder(view);
+        return new ClothDonorAdapter.clothsViewholder(view);
     }
     @Override
-    protected void onBindViewHolder(@NonNull ClothAdapter.clothsViewholder holder, int position, @NonNull Cloth model) {
+    protected void onBindViewHolder(@NonNull ClothDonorAdapter.clothsViewholder holder, int position, @NonNull Cloth model) {
         holder.age.setText(model.age);
         holder.gender.setText(model.gender);
         holder.season.setText(model.season);
@@ -64,7 +64,7 @@ public class ClothAdapter extends FirebaseRecyclerAdapter<
                 username = un.getText().toString();
                 email = e.getText().toString();
                 phone = p.getText().toString();
-                Intent intent = new Intent(v.getContext(), ShowClothActivity.class);
+                Intent intent = new Intent(v.getContext(), ShowClothDonorActivity.class);
                 intent.putExtra("Ages",age);
                 intent.putExtra("Gender",gender);
                 intent.putExtra("Season",season);

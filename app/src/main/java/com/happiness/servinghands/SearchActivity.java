@@ -32,7 +32,7 @@ public class SearchActivity extends AppCompatActivity {
                     Intent intent = new Intent(SearchActivity.this, ToyPostsActivity.class);
                     startActivity(intent);
                 }
-                else if(type.getEditableText().toString().equalsIgnoreCase("Cloths"))
+                else if(type.getEditableText().toString().equalsIgnoreCase("Clothes"))
                 {
 
                     Intent intent = new Intent(SearchActivity.this, ClothPostsActivity.class);

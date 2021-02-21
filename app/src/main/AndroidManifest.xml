@@ -9,7 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ShowClothActivity"></activity>
+        <activity android:name=".ShowClothDonorActivity"></activity>
+        <activity android:name=".ShowToyDonorActivity" />
+        <activity android:name=".ShowFoodDonorActivity" />
+        <activity android:name=".ShowBookDonorActivity" />
+        <activity android:name=".FoodPostsDonorActivity" />
+        <activity android:name=".ToyPostsDonorActivity" />
+        <activity android:name=".BookPostsDonorActivity" />
+        <activity android:name=".ClothPostsDonorActivity" />
+        <activity android:name=".ShowClothActivity" />
         <activity android:name=".ShowToyActivity" />
         <activity android:name=".ShowFoodActivity" />
         <activity android:name=".ToyPostsActivity" />
