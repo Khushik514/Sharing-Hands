@@ -42,7 +42,7 @@ public class BookPostsDonorActivity extends AppCompatActivity {
                         if(book.UID.equalsIgnoreCase(mAuth.getCurrentUser().getUid()))
                             return book;
                         else
-                            return null;
+                            return new Book();
                     }
                 }).build();
         adapter = new BookDonorAdapter(options);

@@ -42,7 +42,7 @@ public class FoodPostsDonorActivity extends AppCompatActivity {
                         if(food.UID.equalsIgnoreCase(mAuth.getCurrentUser().getUid()))
                             return food;
                         else
-                            return null;
+                            return new Food();
                     }
                 }).build();
         adapter = new FoodDonorAdapter(options);

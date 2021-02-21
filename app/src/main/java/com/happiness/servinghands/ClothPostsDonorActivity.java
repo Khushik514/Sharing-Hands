@@ -42,7 +42,7 @@ public class ClothPostsDonorActivity extends AppCompatActivity {
                         if(cloth.UID.equalsIgnoreCase(mAuth.getCurrentUser().getUid()))
                             return cloth;
                         else
-                            return null;
+                            return new Cloth();
                     }
                 }).build();
         adapter = new ClothDonorAdapter(options);

@@ -42,7 +42,7 @@ public class ToyPostsDonorActivity extends AppCompatActivity {
                         if(toy.UID.equalsIgnoreCase(mAuth.getCurrentUser().getUid()))
                             return toy;
                         else
-                            return null;
+                            return new Toy();
                     }
                 }).build();
         adapter = new ToyDonorAdapter(options);
