@@ -10,4 +10,5 @@
         <item>Kanpur</item>
         <item>Delhi</item>
     </string-array>
+    <string name="title_activity_my_posts">MyPostsActivity</string>
 </resources>

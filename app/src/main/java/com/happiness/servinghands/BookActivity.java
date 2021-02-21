@@ -70,7 +70,7 @@ public class BookActivity extends AppCompatActivity {
                     String username = userProfile.username;
                     String email = userProfile.email;
                     String phone = userProfile.phoneNo;
-                    Book book = new Book(BookName, AuthorName, BookCategory, BookAges, userID, username, email, phone);
+                    Book book = new Book(BookName, AuthorName, BookCategory, BookAges ,userID ,username, email, phone);
                     FirebaseDatabase.getInstance().getReference("Posts/Book")
                             .push()
                             .setValue(book).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -78,6 +78,8 @@ public class BookActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(BookActivity.this,"Post added Successfully!", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getApplicationContext(), MypostsActivity.class);
+                                startActivity(intent);
                             }
                             else{
                                 Toast.makeText(BookActivity.this,"Something went wrong, Try again", Toast.LENGTH_LONG).show();

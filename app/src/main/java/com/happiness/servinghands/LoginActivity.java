@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                                 String type = userProfile.usertype;
                                 progressBar.setVisibility(View.GONE);
                                 if(type.equalsIgnoreCase("Donor")){
-                                    Intent intent = new Intent(getApplicationContext(), DonationTypeActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), MypostsActivity.class);
                                     startActivity(intent);
                                 }
                                 else{

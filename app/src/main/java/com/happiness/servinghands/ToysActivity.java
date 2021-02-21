@@ -3,6 +3,7 @@ package com.happiness.servinghands;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -68,6 +69,8 @@ public class ToysActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(ToysActivity.this,"Post added Successfully!", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getApplicationContext(), MypostsActivity.class);
+                                startActivity(intent);
                             }
                             else{
                                 Toast.makeText(ToysActivity.this,"Something went wrong, Try again", Toast.LENGTH_LONG).show();

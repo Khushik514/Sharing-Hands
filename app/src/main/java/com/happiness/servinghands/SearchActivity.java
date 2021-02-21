@@ -2,6 +2,7 @@ package com.happiness.servinghands;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,18 +19,35 @@ public class SearchActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_search);
         search = findViewById(R.id.search);
-        city = findViewById(R.id.city);
         type = findViewById(R.id.donationType);
-        String[] cities = {"Mumbai","Delhi","Kanpur","Bengaluru","Kolkata","Chennai","Lucknow"};
         String[] types = {"Books","Clothes","Food","Toys"};
-        ArrayAdapter cityAdapter = new ArrayAdapter(this, R.layout.list_item, cities);
-        city.setAdapter(cityAdapter);
-        ArrayAdapter typeAdapter = new ArrayAdapter(this, R.layout.list_item, types);
+       ArrayAdapter typeAdapter = new ArrayAdapter(this, R.layout.list_item, types);
         type.setAdapter(typeAdapter);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(type.getEditableText().toString().equalsIgnoreCase("Toys"))
+                {
 
+                    Intent intent = new Intent(SearchActivity.this, ToyPostsActivity.class);
+                    startActivity(intent);
+                }
+                else if(type.getEditableText().toString().equalsIgnoreCase("Cloths"))
+                {
+
+                    Intent intent = new Intent(SearchActivity.this, ClothPostsActivity.class);
+                    startActivity(intent);
+                }
+                else if(type.getEditableText().toString().equalsIgnoreCase("Food"))
+                {
+
+                    Intent intent = new Intent(SearchActivity.this, FoodPostsActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(SearchActivity.this, BookPostsActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
